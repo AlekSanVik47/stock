@@ -1,0 +1,86 @@
+server:
+  port: ${PORT_TO_EXPOSE:8082}
+
+spring:
+  flyway:
+    enabled: false
+
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      show_sql: true
+      format_sql: true
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/stock_db
+    username: postgres
+    password: 12345
+    driver-class-name: org.postgresql.Driver
+#       show-sql = true
+  #    thymeleaf:
+  ##      prefix:
+  #        classpath:  /templates/
+  #        suffix:   html
+  # main:
+  #   web-application-type:
+  application:
+    name: stock
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  jackson:
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
+#  hibernate:
+#      ddl-auto: update
+
+#  datasource:
+#    driver-class-name: org.postgresql.
+#    #url: jdbc:postgresql://localhost:5432/stock_db?currentSchema=public
+#    url: jdbc:postgresql://localhost:5432/stock_db
+#    username: postgres
+#    password: 12345
+
+
+
+  springfox:
+    documentation:
+      swagger-ui:
+        enabled: true
+  #paths:
+  #  /users:
+  #    get:
+  #      summary:
+  #      description:
+  #      responses:
+  #        '200':    # status code
+  #          description:
+  #          content:
+  #            application/json:
+  #              schema:
+  #                type: array
+  #                items:
+  #                  type: string
+
+  #jpa.hibernate.ddl-auto: update
+  jpa.database-platform: org.hibernate.dialect.PostgreSQLDialect
+  sql:
+    init:
+      platform: postgres
+springfox:
+  documentation:
+    swagger:
+      v2:
+        path: /v3/api-docs
+
+
+
+  #spring.jpa.properties.hibernate.format_sql=false
+  #spring.jpa.generate-ddl=false
+  #spring.jpa.hibernate.ddl-auto=none
+#  spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+
+  # Fix Postgres JPA Error (Method org.postgresql.jdbc.PgConnection.createClob()).
+  #spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
+
