@@ -43,9 +43,8 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 
-//    implementation group: 'io.swagger.core.v3', name: 'swagger-annotations', version: '2.2.20'
-    implementation group: 'io.swagger.core.v3', name: 'swagger-core', version: '2.2.20'
-    implementation group: 'io.swagger.core.v3', name: 'swagger-models', version: '2.2.20'
+//    implementation group: 'io.swagger.core.v3', name: 'swagger-core', version: '2.2.20'
+//    implementation group: 'io.swagger.core.v3', name: 'swagger-models', version: '2.2.20'
 
     implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.3.0'
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.3'

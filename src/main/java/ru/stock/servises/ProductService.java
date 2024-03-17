@@ -2,11 +2,8 @@ package ru.stock.servises;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.stock.dto.CategoryDTO;
 import ru.stock.dto.ProductDTO;
-import ru.stock.entities.Category;
 import ru.stock.entities.Product;
-import ru.stock.repositories.CategoryRepository;
 import ru.stock.repositories.ProductRepository;
 
 import java.util.List;

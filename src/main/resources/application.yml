@@ -44,10 +44,10 @@ spring:
 
 
 
-  springfox:
-    documentation:
-      swagger-ui:
-        enabled: true
+#  springfox:
+#    documentation:
+#      swagger-ui:
+#        enabled: true
   #paths:
   #  /users:
   #    get:
