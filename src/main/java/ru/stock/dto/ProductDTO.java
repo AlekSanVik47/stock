@@ -1,12 +1,16 @@
 package ru.stock.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 @Data
+@NoArgsConstructor(force = true)
+@AllArgsConstructor
 public class ProductDTO implements Serializable {
     @Schema(description = "ID продукта")
     private final Long productId;
@@ -31,17 +35,6 @@ public class ProductDTO implements Serializable {
 
     @Schema(description = "Дата создания")
     private final LocalDateTime dateOfCreation;
-
-    public ProductDTO(Long productId, String vendorCode, String titleProduct, String description, CategoryDTO categoryDto, BigDecimal price, LocalDateTime lastQuantityTime, LocalDateTime dateOfCreation) {
-        this.productId = productId;
-        this.vendorCode = vendorCode;
-        this.titleProduct = titleProduct;
-        this.description = description;
-        this.categoryDto = categoryDto;
-        this.price = price;
-        this.lastQuantityTime = lastQuantityTime;
-        this.dateOfCreation = dateOfCreation;
-    }
 
 
 }

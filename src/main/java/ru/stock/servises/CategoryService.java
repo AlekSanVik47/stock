@@ -15,9 +15,9 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-    public Category createCategory(CategoryDTO categoryDTO) {
+    public Category createCategory(String titleCategory) {
         Category category = new Category();
-        category.setTitleCategory(categoryDTO.getTitleCategory());
+        category.setTitleCategory(titleCategory);
         categoryRepository.save(category);
         return category;
     }

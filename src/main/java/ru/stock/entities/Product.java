@@ -54,6 +54,8 @@ public class Product {
     @Column(name = "date_of_creation")
     private LocalDateTime dateOfCreation;
 
-    public void setCategory(CategoryDTO categoryDto) {
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
