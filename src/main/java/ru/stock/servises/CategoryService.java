@@ -21,4 +21,11 @@ public class CategoryService {
         categoryRepository.save(category);
         return category;
     }
+
+    public Category categoryUpdate(String titleCategory, Long categoryId){
+        Category category = categoryRepository.findCategoryById(categoryId);
+        category.setTitleCategory(titleCategory);
+        categoryRepository.updateTitleCategoryById(titleCategory,categoryId);
+        return category;
+    }
 }

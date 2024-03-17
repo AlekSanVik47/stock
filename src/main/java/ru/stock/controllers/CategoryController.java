@@ -29,4 +29,10 @@ public class CategoryController {
                                                             String titleCategory) {
         return ResponseEntity.ok(categoryService.createCategory(titleCategory));
     }
+    @Operation(description = "Редактирование категории")
+    @PutMapping(value = "{category_id}")
+    public ResponseEntity<Category> categoryUpdate(@Parameter(description = "Запрос обновления/редактирования категории", required = true)
+                                                   @RequestParam(value = "titleCategory") String titleCategory, @PathVariable("category_id") Long categoryId){
+        return ResponseEntity.ok(categoryService.categoryUpdate(titleCategory,categoryId));
+    }
 }
