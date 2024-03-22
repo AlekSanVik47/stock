@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.stock.entities.Product;
 import ru.stock.repositories.CategoryRepository;
 import ru.stock.repositories.ProductRepository;
+import ru.stock.dto.ProductDTO;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -26,16 +27,15 @@ public class ProductService {
 
 
 
-    public Product createProduct(String titleProduct, String vendorCode, String description, LocalDateTime lastQuantityTime,
-                                 LocalDateTime dateOfCreation, BigDecimal price,  String titleCategory){
+    public Product createProduct(ProductDTO dto){
         Product product = new Product();
-        product.setTitleProduct(titleProduct);
-        product.setVendorCode(vendorCode);
-        product.setDescription(description);
-        product.setDateOfCreation(dateOfCreation);
-        product.setLastQuantityTime(lastQuantityTime);
-        product.setPrice(price);
-        product.setCategory(categoryService.createCategory(titleCategory));
+        product.setTitleProduct(dto.getTitleProduct());
+        product.setVendorCode(dto.getVendorCode());
+        product.setDescription(dto.getDescription());
+        product.setDateOfCreation(LocalDateTime.now());
+        product.setLastQuantityTime(dto.getLastQuantityTime());
+        product.setPrice(dto.getPrice());
+        product.setCategory(categoryService.createCategory(dto.getCategoryDto().getTitleCategory()));
         productRepository.save(product);
         return product;
     }

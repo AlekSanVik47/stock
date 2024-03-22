@@ -54,6 +54,9 @@ public class Product {
     @Column(name = "date_of_creation")
     private LocalDateTime dateOfCreation;
 
+    @Column(name = "quantity")
+    private int quantity;
+
 
     public void setCategory(Category category) {
         this.category = category;
