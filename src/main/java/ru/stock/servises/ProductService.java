@@ -33,7 +33,7 @@ public class ProductService {
         product.setVendorCode(dto.getVendorCode());
         product.setDescription(dto.getDescription());
         product.setDateOfCreation(LocalDateTime.now());
-        product.setLastQuantityTime(dto.getLastQuantityTime());
+        product.setLastQuantityTime(LocalDateTime.now());
         product.setPrice(dto.getPrice());
         product.setCategory(categoryService.createCategory(dto.getCategoryDto().getTitleCategory()));
         productRepository.save(product);
