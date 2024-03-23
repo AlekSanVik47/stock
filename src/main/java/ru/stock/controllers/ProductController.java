@@ -30,8 +30,8 @@ public class ProductController {
     @Operation(description = "Добавление/создание продукта")
     @PostMapping
     public ResponseEntity<Product> createProductController(@Parameter(description = "Создание продукта", required = true)
-                                                           @RequestBody(required = false)ProductDTO request)
-                                                            {
-        return ResponseEntity.ok(productService.createProduct(request));
+                                                           @RequestParam(value = "categoryId") Long categoryId,
+                                                           @RequestBody(required = false) ProductDTO request) {
+        return ResponseEntity.ok(productService.createProduct(request, categoryId));
     }
 }

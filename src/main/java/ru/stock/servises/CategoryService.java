@@ -23,9 +23,13 @@ public class CategoryService {
     }
 
     public Category categoryUpdate(String titleCategory, Long categoryId){
-        Category category = categoryRepository.findCategoryById(categoryId);
+        Category category = getCategoryById(categoryId);
         category.setTitleCategory(titleCategory);
         categoryRepository.updateTitleCategoryById(titleCategory,categoryId);
         return category;
+    }
+
+    public Category getCategoryById (Long categoryId){
+        return categoryRepository.findCategoryById(categoryId);
     }
 }
