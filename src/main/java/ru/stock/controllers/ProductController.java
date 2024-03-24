@@ -42,8 +42,9 @@ public class ProductController {
                                                  @PathVariable(value = "productId") Long productId,
                                                  @RequestParam(value = "quantity", required = false) int quantity) {
         productService.addingProducts(productId, quantity);
+        String titleProduct = productService.getTitleProductById(productId);
         String msg = "В " +
-                productService.getTitleProductById(productId).toString() +
+                 titleProduct +
                 " успешно добавлены продукты в количестве " +
                 quantity + " шт.";
         return ResponseEntity.ok(msg);

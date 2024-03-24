@@ -61,24 +61,26 @@ public class ProductService {
         Optional<Product> productOptional = getProductById(productId);
         if ((isExists) && isQuantityChange) {
             productOptional.ifPresent(product -> {
-                    int newQuantity = product.getQuantity() + quantity;
-                    product.setQuantity(newQuantity);
+                    product.setQuantity(product.getQuantity() + quantity);
                     product.setLastQuantityTime(LocalDateTime.now());
                     productRepository.save(product);
-                    return;
+
 //                } else {
 //                    String titleField = "Quantity";
 //                    throw new DataHasNotChanged(titleField, productId);
 //                }
                 });
+        } else {
+            String titleField = "Quantity";
+            throw new DataHasNotChanged(titleField, productId);
         }
-        String titleField = "Quantity";
-        throw new DataHasNotChanged(titleField, productId);
+        return false;
     }
 
     public String getTitleProductById(Long productId) {
         if (productRepository.existsById(productId)) {
-            return productRepository.findTitleProductById(productId);
+            Product product = productRepository.findProductById(productId);
+            return product.getTitleProduct();
         }
         throw new DataNotInDBException();
     }

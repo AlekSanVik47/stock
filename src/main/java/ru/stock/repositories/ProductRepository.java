@@ -3,6 +3,7 @@ package ru.stock.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.stock.entities.Category;
@@ -37,4 +38,6 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
             where p.id = ?9""")
     void updateById(String vendorCode, String titleProduct, String description, Category category, BigDecimal price, LocalDateTime lastQuantityTime, LocalDateTime dateOfCreation, int quantity, Long id);
 
+    @Query("SELECT p FROM Product p WHERE p.id = :productId")
+    Product findProductById(Long productId);
 }
