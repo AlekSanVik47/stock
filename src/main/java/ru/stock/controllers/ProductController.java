@@ -36,16 +36,16 @@ public class ProductController {
         return ResponseEntity.ok(productService.createProduct(request, categoryId));
     }
 
-//    @Operation(description = "Добавление значения количества продукта")
-//    @PutMapping(value = "{productId}")
-//    public ResponseEntity<String> addingProducts(@Parameter(description = "Добавление значения количества продукта")
-//                                                 @PathVariable(value = "productId") Long productId,
-//                                                 @RequestParam(value = "quantity", required = false) int quantity) {
-//        productService.addingProducts(productId, quantity);
-//        String msg = "В " +
-//                productService.getTitleProductById(productId).toString() +
-//                " успешно добавлены продукты в количестве " +
-//                quantity + " шт.";
-//        return ResponseEntity.ok("Добавлен");
-//    }
+    @Operation(description = "Добавление значения количества продукта")
+    @PutMapping(value = "add/{productId}")
+    public ResponseEntity<String> addingProducts(@Parameter(description = "Добавление значения количества продукта")
+                                                 @PathVariable(value = "productId") Long productId,
+                                                 @RequestParam(value = "quantity", required = false) int quantity) {
+        productService.addingProducts(productId, quantity);
+        String msg = "В " +
+                productService.getTitleProductById(productId).toString() +
+                " успешно добавлены продукты в количестве " +
+                quantity + " шт.";
+        return ResponseEntity.ok(msg);
+    }
 }
