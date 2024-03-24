@@ -25,7 +25,12 @@ public class ProductService {
         this.categoryService = categoryService;
     }
 
-
+    /**
+     * Метод создания нового продукта
+     * @param dto в json передаем параметры/поля продукта titleProduct, vendorCode, description, price, categoryId, quantity
+     * @param categoryId по ID категории предается существующая в базе.
+     * @return возвращаем продукт
+     */
     public Product createProduct(ProductDTO dto, Long categoryId) {
         Product product = new Product();
         product.setTitleProduct(dto.getTitleProduct());
@@ -40,6 +45,12 @@ public class ProductService {
         return product;
     }
 
+    /**
+     * Метод обновления продукта
+     * @param dto в json передаем необходимые параметры
+     * @param productId ID продукта
+     * @return возвращаем обновленный продукт
+     */
     public Optional<Product> updateProduct(ProductDTO dto, Long productId) {
         Optional<Product> productOptional = getProductById(productId);
         if (addingProducts(productId, dto.getQuantity())) {
@@ -55,6 +66,13 @@ public class ProductService {
         return productOptional;
     }
 
+    /**
+     * Метод добавления продута, добавляем необходимое количество продукта к уже существующему,
+     * если пытаемся добавить 0 выбрасываем исключение.
+     * @param productId Id продукта
+     * @param quantity количество которое необходимо добавить
+     * @return возвращает boolean значение
+     */
     public boolean addingProducts(Long productId, int quantity) {
         boolean isExists = productRepository.existsById(productId);
         boolean isQuantityChange = quantity!=0;
@@ -64,11 +82,6 @@ public class ProductService {
                     product.setQuantity(product.getQuantity() + quantity);
                     product.setLastQuantityTime(LocalDateTime.now());
                     productRepository.save(product);
-
-//                } else {
-//                    String titleField = "Quantity";
-//                    throw new DataHasNotChanged(titleField, productId);
-//                }
                 });
         } else {
             String titleField = "Quantity";
@@ -77,6 +90,11 @@ public class ProductService {
         return false;
     }
 
+    /**
+     * Метод получения названия по ID, если Id не верный выбрасываем исключение.
+     * @param productId ID продукта
+     * @return возвращаем название продукта
+     */
     public String getTitleProductById(Long productId) {
         if (productRepository.existsById(productId)) {
             Product product = productRepository.findProductById(productId);

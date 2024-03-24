@@ -11,10 +11,6 @@ import ru.stock.dto.ProductDTO;
 import ru.stock.entities.Product;
 import ru.stock.servises.ProductService;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Optional;
-
 @RestController
 @RequestMapping("product")
 @Tag(name = "ProductController", description = "API продуктов")
