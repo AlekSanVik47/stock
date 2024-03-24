@@ -13,6 +13,7 @@ import ru.stock.servises.ProductService;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("product")
@@ -27,11 +28,24 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @Operation(description = "Добавление/создание продукта")
+    @Operation(description = "Создание продукта")
     @PostMapping
     public ResponseEntity<Product> createProductController(@Parameter(description = "Создание продукта", required = true)
                                                            @RequestParam(value = "categoryId") Long categoryId,
                                                            @RequestBody(required = false) ProductDTO request) {
         return ResponseEntity.ok(productService.createProduct(request, categoryId));
     }
+
+//    @Operation(description = "Добавление значения количества продукта")
+//    @PutMapping(value = "{productId}")
+//    public ResponseEntity<String> addingProducts(@Parameter(description = "Добавление значения количества продукта")
+//                                                 @PathVariable(value = "productId") Long productId,
+//                                                 @RequestParam(value = "quantity", required = false) int quantity) {
+//        productService.addingProducts(productId, quantity);
+//        String msg = "В " +
+//                productService.getTitleProductById(productId).toString() +
+//                " успешно добавлены продукты в количестве " +
+//                quantity + " шт.";
+//        return ResponseEntity.ok("Добавлен");
+//    }
 }

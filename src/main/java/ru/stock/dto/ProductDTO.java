@@ -30,6 +30,9 @@ public class ProductDTO implements Serializable {
     @Schema(description = "Цена")
     private final BigDecimal price;
 
+    @Schema(description = "количество")
+    private final int quantity;
+
     @Schema(description = "Дата и время последнего изменения количества")
     private final LocalDateTime lastQuantityTime;
 
