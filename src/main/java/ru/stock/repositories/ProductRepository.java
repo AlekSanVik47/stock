@@ -36,8 +36,26 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     @Query("""
             update Product p set p.vendorCode = ?1, p.titleProduct = ?2, p.description = ?3, p.category = ?4, p.price = ?5, p.lastQuantityTime = ?6, p.dateOfCreation = ?7, p.quantity = ?8
             where p.id = ?9""")
-    void updateById(String vendorCode, String titleProduct, String description, Category category, BigDecimal price, LocalDateTime lastQuantityTime, LocalDateTime dateOfCreation, int quantity, Long id);
+    void updateSelectedFieldsById(String vendorCode, String titleProduct, String description, Category category, BigDecimal price, LocalDateTime lastQuantityTime, LocalDateTime dateOfCreation, int quantity, Long id);
 
     @Query("SELECT p FROM Product p WHERE p.id = :productId")
     Product findProductById(Long productId);
+
+//    @Transactional
+//    @Modifying
+//    @Query("""
+//        update Product p set
+//        p.vendorCode = coalesce(?1, p.vendorCode),
+//        p.titleProduct = coalesce(?2, p.titleProduct),
+//        p.description = coalesce(?3, p.description),
+//        p.category = coalesce(?4, p.category),
+//        p.price = coalesce(?5, p.price),
+//        p.lastQuantityTime = coalesce(?6, p.lastQuantityTime),
+//        p.dateOfCreation = coalesce(?7, p.dateOfCreation),
+//        p.quantity = coalesce(?8, p.quantity)
+//        where p.id = ?9
+//""")
+//    void updateSelectedFieldsById(String vendorCode, String titleProduct, String description,
+//                                  Category category, BigDecimal price, LocalDateTime lastQuantityTime,
+//                                  LocalDateTime dateOfCreation, Integer quantity, Long id);
 }

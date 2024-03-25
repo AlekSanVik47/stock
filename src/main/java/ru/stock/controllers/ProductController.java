@@ -11,6 +11,8 @@ import ru.stock.dto.ProductDTO;
 import ru.stock.entities.Product;
 import ru.stock.servises.ProductService;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("product")
 @Tag(name = "ProductController", description = "API продуктов")
@@ -32,7 +34,7 @@ public class ProductController {
         return ResponseEntity.ok(productService.createProduct(request, categoryId));
     }
 
-    @Operation(description = "Добавление значения количества продукта")
+    @Operation(description = "Добавление продукта (количество)")
     @PutMapping(value = "add/{productId}")
     public ResponseEntity<String> addingProducts(@Parameter(description = "Добавление значения количества продукта")
                                                  @PathVariable(value = "productId") Long productId,
@@ -44,5 +46,13 @@ public class ProductController {
                 " успешно добавлены продукты в количестве " +
                 quantity + " шт.";
         return ResponseEntity.ok(msg);
+    }
+    @Operation(description = "Обновление продукта")
+    @PutMapping(value ="update/{productId}")
+    public ResponseEntity<Optional<Product>> updateProduct(@Parameter(description = "Добавление значения количества продукта")
+                                                     @PathVariable(value = "productId") Long productId,
+                                                           @RequestBody(required = false) ProductDTO request){
+        ;
+        return ResponseEntity.ok(productService.updateProduct(request, productId));
     }
 }

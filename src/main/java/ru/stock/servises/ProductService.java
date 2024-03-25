@@ -53,17 +53,24 @@ public class ProductService {
      */
     public Optional<Product> updateProduct(ProductDTO dto, Long productId) {
         Optional<Product> productOptional = getProductById(productId);
-        if (addingProducts(productId, dto.getQuantity())) {
+        if (productRepository.existsById(productId)) {
             productOptional.ifPresent(product -> {
-                product.setTitleProduct(dto.getTitleProduct());
-                product.setVendorCode(dto.getVendorCode());
-                product.setDescription(dto.getDescription());
-                product.setQuantity(dto.getQuantity());
-                product.setPrice(dto.getPrice());
+                if (dto.getTitleProduct() != null)
+                    product.setTitleProduct(dto.getTitleProduct());
+                if (dto.getVendorCode() != null)
+                    product.setVendorCode(dto.getVendorCode());
+                if (dto.getDescription() != null)
+                    product.setDescription(dto.getDescription());
+                if (dto.getQuantity() != 0)
+                    product.setQuantity(dto.getQuantity() + product.getQuantity());
+                if (dto.getPrice() != null)
+                    product.setPrice(dto.getPrice());
+//                if (dto.getCategoryDto() != null)
+//                    product.setCategory(categoryService.getCategoryById(dto.getCategoryDto().getId()));
                 productRepository.save(product);
             });
         }
-        return productOptional;
+        return Optional.ofNullable(productRepository.findById(productId).orElseThrow(DataNotInDBException::new)) ;
     }
 
     /**
@@ -71,9 +78,8 @@ public class ProductService {
      * если пытаемся добавить 0 выбрасываем исключение.
      * @param productId Id продукта
      * @param quantity количество которое необходимо добавить
-     * @return возвращает boolean значение
      */
-    public boolean addingProducts(Long productId, int quantity) {
+    public void addingProducts(Long productId, int quantity) {
         boolean isExists = productRepository.existsById(productId);
         boolean isQuantityChange = quantity!=0;
         Optional<Product> productOptional = getProductById(productId);
@@ -87,7 +93,6 @@ public class ProductService {
             String titleField = "Quantity";
             throw new DataHasNotChanged(titleField, productId);
         }
-        return false;
     }
 
     /**
