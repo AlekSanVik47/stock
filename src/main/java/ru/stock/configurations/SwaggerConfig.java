@@ -17,7 +17,7 @@ public class SwaggerConfig {
                 .info(new Info().title("Stock Service")
                 .description("Stock Service")
                 .version("v0.0.1"))
-                .servers(List.of(new Server().url("http://localhost:8082")
+                .servers(List.of(new Server().url("http://localhost:8085")
                         .description("Stock service (склад сервис)")));
     }
 }
