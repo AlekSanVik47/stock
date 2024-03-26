@@ -2,9 +2,12 @@ package ru.stock.servises;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.stock.entities.Category;
 import ru.stock.entities.Product;
 import ru.stock.exceptions.DataHasNotChanged;
 import ru.stock.exceptions.DataNotInDBException;
+import ru.stock.mappers.CategoryMapper;
+import ru.stock.mappers.ProductMapper;
 import ru.stock.repositories.CategoryRepository;
 import ru.stock.repositories.ProductRepository;
 import ru.stock.dto.ProductDTO;
@@ -18,21 +21,27 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
+    private final ProductMapper productMapper;
+    private final CategoryMapper categoryMapper;
 
     @Autowired
-    public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository, CategoryService categoryService) {
+    public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository,
+                          CategoryService categoryService, ProductMapper productMapper, CategoryMapper categoryMapper) {
         this.productRepository = productRepository;
         this.categoryService = categoryService;
+        this.productMapper = productMapper;
+        this.categoryMapper = categoryMapper;
     }
 
     /**
      * Метод создания нового продукта
-     * @param dto в json передаем параметры/поля продукта titleProduct, vendorCode, description, price, categoryId, quantity
+     *
+     * @param dto        в json передаем параметры/поля продукта titleProduct, vendorCode, description, price, categoryId, quantity
      * @param categoryId по ID категории предается существующая в базе.
      * @return возвращаем продукт
      */
     public Product createProduct(ProductDTO dto, Long categoryId) {
-        Product product = new Product();
+        Product product = productMapper.toProduct(dto);
         product.setTitleProduct(dto.getTitleProduct());
         product.setVendorCode(dto.getVendorCode());
         product.setDescription(dto.getDescription());
@@ -47,56 +56,64 @@ public class ProductService {
 
     /**
      * Метод обновления продукта
-     * @param dto в json передаем необходимые параметры
+     *
+     * @param dto       в json передаем необходимые параметры
      * @param productId ID продукта
      * @return возвращаем обновленный продукт
      */
     public Optional<Product> updateProduct(ProductDTO dto, Long productId) {
-        Optional<Product> productOptional = getProductById(productId);
-        if (productRepository.existsById(productId)) {
-            productOptional.ifPresent(product -> {
-                if (dto.getTitleProduct() != null)
+            Category category = categoryMapper.toCategory(dto.getCategoryDto());
+            Long categoryId = category.getId();
+            Optional<Product> productOptional = getProductById(productId);
+            if (productRepository.existsById(productId)) {
+                productOptional.ifPresent(product -> {
                     product.setTitleProduct(dto.getTitleProduct());
-                if (dto.getVendorCode() != null)
                     product.setVendorCode(dto.getVendorCode());
-                if (dto.getDescription() != null)
                     product.setDescription(dto.getDescription());
-                if (dto.getQuantity() != 0)
-                    product.setQuantity(dto.getQuantity() + product.getQuantity());
-                if (dto.getPrice() != null)
-                    product.setPrice(dto.getPrice());
-//                if (dto.getCategoryDto() != null)
-//                    product.setCategory(categoryService.getCategoryById(dto.getCategoryDto().getId()));
-                productRepository.save(product);
-            });
-        }
-        return Optional.ofNullable(productRepository.findById(productId).orElseThrow(DataNotInDBException::new)) ;
+                    if (dto.getQuantity() != 0)
+                        product.setQuantity(dto.getQuantity() + product.getQuantity());
+                    if (dto.getPrice() != null)
+                        product.setPrice(dto.getPrice());
+                    if (categoryId != null && category.getTitleCategory() != null) {
+                        product.setCategory(categoryService.getCategoryById(categoryId));
+                    }
+                    product.setCategory(category);
+                    productRepository.save(product);
+                });
+            }
+        return Optional.ofNullable(productRepository.findById(productId).orElseThrow(DataNotInDBException::new));
     }
 
     /**
      * Метод добавления продута, добавляем необходимое количество продукта к уже существующему,
      * если пытаемся добавить 0 выбрасываем исключение.
+     *
      * @param productId Id продукта
-     * @param quantity количество которое необходимо добавить
+     * @param quantity  количество которое необходимо добавить
      */
     public void addingProducts(Long productId, int quantity) {
-        boolean isExists = productRepository.existsById(productId);
-        boolean isQuantityChange = quantity!=0;
+        boolean isExists = isExistsProduct(productId);
+        boolean isQuantityChange = quantity != 0;
         Optional<Product> productOptional = getProductById(productId);
         if ((isExists) && isQuantityChange) {
             productOptional.ifPresent(product -> {
-                    product.setQuantity(product.getQuantity() + quantity);
-                    product.setLastQuantityTime(LocalDateTime.now());
-                    productRepository.save(product);
-                });
+                product.setQuantity(product.getQuantity() + quantity);
+                product.setLastQuantityTime(LocalDateTime.now());
+                productRepository.save(product);
+            });
         } else {
             String titleField = "Quantity";
             throw new DataHasNotChanged(titleField, productId);
         }
     }
 
+    private boolean isExistsProduct(Long productId) {
+        return productRepository.existsById(productId);
+    }
+
     /**
      * Метод получения названия по ID, если Id не верный выбрасываем исключение.
+     *
      * @param productId ID продукта
      * @return возвращаем название продукта
      */
@@ -123,6 +140,10 @@ public class ProductService {
     public Optional<Product> getProductById(Long productId) {
         return Optional.ofNullable(productRepository.findById(productId).orElseThrow(DataNotInDBException::new));
 
+    }
+
+    public List<Product> getListAllProducts(){
+        return productRepository.findAll();
     }
 
 

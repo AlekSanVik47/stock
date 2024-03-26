@@ -25,9 +25,8 @@ public class CategoryController {
     @Operation(description = "Добавление/создание категории")
     @PostMapping
     public ResponseEntity<Category> createProductController(@Parameter(description = "Запрос на создание категории продукта", required = true)
-                                                                @RequestParam(value = "titleCategory")
-                                                            String titleCategory) {
-        return ResponseEntity.ok(categoryService.createCategory(titleCategory));
+                                                                @RequestBody(required = false) CategoryDTO request) {
+        return ResponseEntity.ok(categoryService.createCategory(request));
     }
     @Operation(description = "Редактирование категории")
     @PutMapping(value = "{category_id}")

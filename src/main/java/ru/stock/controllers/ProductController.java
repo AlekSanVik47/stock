@@ -11,10 +11,11 @@ import ru.stock.dto.ProductDTO;
 import ru.stock.entities.Product;
 import ru.stock.servises.ProductService;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("product")
+@RequestMapping("products")
 @Tag(name = "ProductController", description = "API продуктов")
 @Validated
 public class ProductController {
@@ -42,17 +43,52 @@ public class ProductController {
         productService.addingProducts(productId, quantity);
         String titleProduct = productService.getTitleProductById(productId);
         String msg = "В " +
-                 titleProduct +
+                titleProduct +
                 " успешно добавлены продукты в количестве " +
                 quantity + " шт.";
         return ResponseEntity.ok(msg);
     }
+
     @Operation(description = "Обновление продукта")
-    @PutMapping(value ="update/{productId}")
+    @PutMapping(value = "update/{productId}")
     public ResponseEntity<Optional<Product>> updateProduct(@Parameter(description = "Добавление значения количества продукта")
-                                                     @PathVariable(value = "productId") Long productId,
-                                                           @RequestBody(required = false) ProductDTO request){
+                                                           @PathVariable(value = "productId") Long productId,
+                                                           @RequestBody(required = false) ProductDTO request) {
         ;
         return ResponseEntity.ok(productService.updateProduct(request, productId));
+    }
+
+    @Operation(description = "Получение списка продуктов")
+    @GetMapping(value = "all", produces = {"application/json"})
+    public ResponseEntity<List<Product>> getListAllProducts(@Parameter(description = "Список всех продуктов")
+                                                            @RequestParam(value = "products", required = false) String allProducts) {
+        return ResponseEntity.ok(productService.getListAllProducts());
+    }
+
+    @Operation(description = "Получение продукта(по ID)")
+    @GetMapping(value = "product/{productId}")
+    public ResponseEntity<Optional<Product>> getProductById(@Parameter(description = "Получение продукта(по ID)")
+                                                            @PathVariable(value = "productId") Long productId) {
+        return ResponseEntity.ok(productService.getProductById(productId));
+    }
+
+    @Operation(description = "Получение продукта (по vendorCod(артикул))")
+    @GetMapping(value = "search/{vendorCode}")
+    public ResponseEntity<Product> getProductByVendorCode(@Parameter(description = "Получение продукта(по ID)")
+                                                          @PathVariable(value = "vendorCode") String vendorCode) {
+        return ResponseEntity.ok(productService.getProductByVendorCode(vendorCode));
+    }
+
+    @Operation(description = "Получение списка продуктов(по категории)")
+    @GetMapping(value = "categories/{categoryId}", produces = {"application/json"})
+    public ResponseEntity<List<Product>> getProductByCategory(@Parameter(description = "Список продуктов(по категории)")
+                                                              @PathVariable Long categoryId) {
+        return ResponseEntity.ok(productService.getProductByCategory(categoryId));
+    }
+    @Operation(description = "Получение списка продуктов(по категории)")
+    @GetMapping(value = "titles/{titleProduct}", produces = {"application/json"})
+    public ResponseEntity<List<Product>> getProductByTitleProduct(@Parameter(description = "Список продуктов(по наименованию)")
+                                                                      @PathVariable String titleProduct){
+        return ResponseEntity.ok(productService.getProductByTitleProduct(titleProduct));
     }
 }

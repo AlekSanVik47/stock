@@ -4,20 +4,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.stock.dto.CategoryDTO;
 import ru.stock.entities.Category;
+import ru.stock.exceptions.DataNotInDBException;
+import ru.stock.mappers.CategoryMapper;
 import ru.stock.repositories.CategoryRepository;
 
 @Service
 public class CategoryService {
     private final CategoryRepository categoryRepository;
+    private final CategoryMapper categoryMapper;
 
     @Autowired
-    public CategoryService(CategoryRepository categoryRepository) {
+    public CategoryService(CategoryRepository categoryRepository, CategoryMapper categoryMapper) {
         this.categoryRepository = categoryRepository;
+        this.categoryMapper = categoryMapper;
     }
 
-    public Category createCategory(String titleCategory) {
-        Category category = new Category();
-        category.setTitleCategory(titleCategory);
+    public Category createCategory(CategoryDTO dto) {
+        Category category = categoryMapper.toCategory(dto);
+        category.setTitleCategory(dto.getTitleCategory());
         categoryRepository.save(category);
         return category;
     }
@@ -29,7 +33,14 @@ public class CategoryService {
         return category;
     }
 
-    public Category getCategoryById (Long categoryId){
+    public Category getCategoryById (Long categoryId) throws DataNotInDBException {
+        if (!isExistsCategory(categoryId)) {
+            throw  new DataNotInDBException();
+        }
         return categoryRepository.findCategoryById(categoryId);
+    }
+
+    public boolean isExistsCategory(Long categoryId){
+        return categoryRepository.existsById(categoryId);
     }
 }
