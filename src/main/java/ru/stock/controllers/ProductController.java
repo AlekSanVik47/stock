@@ -91,4 +91,12 @@ public class ProductController {
                                                                       @PathVariable String titleProduct){
         return ResponseEntity.ok(productService.getProductByTitleProduct(titleProduct));
     }
+
+    @Operation(description = "Удаление продукта")
+    @DeleteMapping(value = "{productId}")
+    public ResponseEntity<Object> deleteProduct(@Parameter(description = "Удаление продукта по идентификатору", required = true)
+                                                @PathVariable(value = "productId") Long productId){
+     productService.deleteProduct(productId);
+     return ResponseEntity.noContent().build();
+    }
 }

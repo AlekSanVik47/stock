@@ -11,8 +11,10 @@ import ru.stock.dto.CategoryDTO;
 import ru.stock.entities.Category;
 import ru.stock.servises.CategoryService;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("category")
+@RequestMapping("categories")
 @Tag(name = "CategoryController", description = "API категорий продуктов")
 @Validated
 
@@ -30,8 +32,38 @@ public class CategoryController {
     }
     @Operation(description = "Редактирование категории")
     @PutMapping(value = "{category_id}")
-    public ResponseEntity<Category> categoryUpdate(@Parameter(description = "Запрос обновления/редактирования категории", required = true)
+    public ResponseEntity<Category> updateCategory(@Parameter(description = "Запрос обновления/редактирования категории", required = true)
                                                    @RequestParam(value = "titleCategory") String titleCategory, @PathVariable("category_id") Long categoryId){
-        return ResponseEntity.ok(categoryService.categoryUpdate(titleCategory,categoryId));
+        return ResponseEntity.ok(categoryService.updateCategory(titleCategory,categoryId));
     }
+
+    @Operation(description = "Получение списка категорий")
+    @GetMapping(value = "all", produces = {"application/json"})
+    public ResponseEntity<List<Category>> getAllCategories(@Parameter(description = "Получение списка категорий")
+                                                           @RequestParam(value = "allCategories") String allCategories){
+        return ResponseEntity.ok(categoryService.getAllCategories());
+    }
+
+    @Operation(description = "Получение категории")
+    @GetMapping(value = "{categoryId}")
+    public ResponseEntity<Category> getCategoryById(@Parameter(description = "Получение категории")
+                                                     @PathVariable(value = "categoryId") Long categoryId){
+        return ResponseEntity.ok(categoryService.getCategoryById(categoryId));
+    }
+
+    @Operation(description = "Получение категории по наименованию")
+    @GetMapping(value = "title/{titleCategory}")
+    public ResponseEntity<Category> getCategoryByTitle(@Parameter(description = "Получение категории по наименованию")
+                                                    @PathVariable(value = "titleCategory") String titleCategory){
+        return ResponseEntity.ok(categoryService.getCategoryByTitle(titleCategory));
+    }
+
+    @Operation(description = "Удаление категории")
+    @DeleteMapping(value = "{categoryId}")
+    public ResponseEntity<Object> deleteCategoryById(@Parameter(description = "Удаление категории по идентификатору", required = true)
+                                                @PathVariable(value = "categoryId") Long productId){
+        categoryService.deleteCategoryById(productId);
+        return ResponseEntity.noContent().build();
+    }
+
 }

@@ -18,6 +18,10 @@ configurations {
     }
 }
 
+//springBoot {
+//    mainClass = 'полное.имя.основного.класса'
+//}
+
 repositories {
     mavenCentral()
 }
@@ -46,7 +50,8 @@ dependencies {
     implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.3.0'
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.3'
 
-
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 }
 
 //tasks.named('test') {

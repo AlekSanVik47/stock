@@ -8,6 +8,8 @@ import ru.stock.exceptions.DataNotInDBException;
 import ru.stock.mappers.CategoryMapper;
 import ru.stock.repositories.CategoryRepository;
 
+import java.util.List;
+
 @Service
 public class CategoryService {
     private final CategoryRepository categoryRepository;
@@ -26,7 +28,7 @@ public class CategoryService {
         return category;
     }
 
-    public Category categoryUpdate(String titleCategory, Long categoryId){
+    public Category updateCategory(String titleCategory, Long categoryId){
         Category category = getCategoryById(categoryId);
         category.setTitleCategory(titleCategory);
         categoryRepository.updateTitleCategoryById(titleCategory,categoryId);
@@ -42,5 +44,17 @@ public class CategoryService {
 
     public boolean isExistsCategory(Long categoryId){
         return categoryRepository.existsById(categoryId);
+    }
+
+    public List<Category> getAllCategories(){
+        return categoryRepository.findAll();
+    }
+
+    public Category getCategoryByTitle(String titleCategory){
+        return categoryRepository.findByTitleCategory(titleCategory);
+    }
+
+    public void deleteCategoryById(Long categoryId){
+        categoryRepository.deleteById(categoryId);
     }
 }

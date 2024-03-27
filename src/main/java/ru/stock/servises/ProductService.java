@@ -146,5 +146,8 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+    public void deleteProduct(Long productId){
+        productRepository.deleteById(productId);
+    }
 
 }

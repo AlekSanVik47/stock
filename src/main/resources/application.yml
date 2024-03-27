@@ -1,5 +1,5 @@
 server:
-  port: ${PORT_TO_EXPOSE:8082}
+  port: ${PORT_TO_EXPOSE:8085}
 
 spring:
   flyway:
