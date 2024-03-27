@@ -85,7 +85,7 @@ public class ProductController {
                                                               @PathVariable Long categoryId) {
         return ResponseEntity.ok(productService.getProductByCategory(categoryId));
     }
-    @Operation(description = "Получение списка продуктов(по категории)")
+    @Operation(description = "Получение списка продуктов(по наименованию)")
     @GetMapping(value = "titles/{titleProduct}", produces = {"application/json"})
     public ResponseEntity<List<Product>> getProductByTitleProduct(@Parameter(description = "Список продуктов(по наименованию)")
                                                                       @PathVariable String titleProduct){
