@@ -42,8 +42,8 @@ public class ProductController {
                                                  @RequestParam(value = "quantity", required = false) int quantity) {
         productService.addingProducts(productId, quantity);
         String titleProduct = productService.getTitleProductById(productId);
-        String msg = "В " +
-                titleProduct +
+        String msg = "Для " +
+                titleProduct + " ID: " + productId +
                 " успешно добавлены продукты в количестве " +
                 quantity + " шт.";
         return ResponseEntity.ok(msg);

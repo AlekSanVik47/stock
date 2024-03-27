@@ -2,6 +2,7 @@ package ru.stock.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -55,6 +56,7 @@ public class Product {
     private LocalDateTime dateOfCreation;
 
     @Column(name = "quantity")
+    @NotNull(message = "Должно быть заполнено")
     private int quantity;
 
 

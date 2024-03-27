@@ -1,5 +1,6 @@
 package ru.stock.servises;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.stock.entities.Category;
@@ -93,7 +94,7 @@ public class ProductService {
      */
     public void addingProducts(Long productId, int quantity) {
         boolean isExists = isExistsProduct(productId);
-        boolean isQuantityChange = quantity != 0;
+        boolean isQuantityChange = (quantity != 0);
         Optional<Product> productOptional = getProductById(productId);
         if ((isExists) && isQuantityChange) {
             productOptional.ifPresent(product -> {
@@ -102,8 +103,10 @@ public class ProductService {
                 productRepository.save(product);
             });
         } else {
-            String titleField = "Quantity";
-            throw new DataHasNotChanged(titleField, productId);
+            productOptional.ifPresent(product -> {
+                String title = product.getTitleProduct();
+                throw new DataHasNotChanged(title, productId);
+            });
         }
     }
 
