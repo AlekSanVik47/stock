@@ -18,6 +18,9 @@ spring:
     username: postgres
     password: 12345
     driver-class-name: org.postgresql.Driver
+#  main:
+#    web-application-type: SERVLET
+
 #       show-sql = true
   #    thymeleaf:
   ##      prefix:

@@ -1,8 +1,9 @@
 package ru.stock.servises;
 
-import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.stock.dto.ProductDTO;
 import ru.stock.entities.Category;
 import ru.stock.entities.Product;
 import ru.stock.exceptions.DataHasNotChanged;
@@ -11,13 +12,13 @@ import ru.stock.mappers.CategoryMapper;
 import ru.stock.mappers.ProductMapper;
 import ru.stock.repositories.CategoryRepository;
 import ru.stock.repositories.ProductRepository;
-import ru.stock.dto.ProductDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
 
     private final ProductRepository productRepository;

@@ -14,4 +14,11 @@ public class Category {
     Long id;
     @Column(name = "category", unique = true)
     private String titleCategory;
+
+    public Category(Long l, String s) {
+    }
+
+    public Category() {
+
+    }
 }

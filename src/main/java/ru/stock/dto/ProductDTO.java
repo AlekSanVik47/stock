@@ -1,7 +1,6 @@
 package ru.stock.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +8,6 @@ import lombok.NonNull;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor(force = true)
 @AllArgsConstructor
@@ -36,4 +34,5 @@ public class ProductDTO implements Serializable {
 
     @Schema(description = "количество")
     private final int quantity;
+
 }

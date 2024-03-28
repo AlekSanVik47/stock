@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import ru.stock.dto.CategoryDTO;
 
 import java.math.BigDecimal;
@@ -20,6 +21,7 @@ import java.time.LocalDateTime;
  * price цена товара
  * lastQuantityTime дата и время последнего изменения количества
  * dateOfCreation дата создания.
+ * quantity количество.
  */
 @Entity
 @Data
@@ -41,6 +43,7 @@ public class Product {
     @Column(name = "description")
     private String description;
 
+    @Setter
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -56,11 +59,6 @@ public class Product {
     private LocalDateTime dateOfCreation;
 
     @Column(name = "quantity")
-    @NotNull(message = "Должно быть заполнено")
     private int quantity;
 
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
 }
